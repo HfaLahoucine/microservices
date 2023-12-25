@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql:latest
+    ports:
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=voiture
+    restart: always
+
+  produits:
+    #    image: microservice-produits
+    build: ./microservice-produits
+    ports:
+      - "9001:9001"
+    depends_on:
+      - mysqldb
+
+
+  client:
+    #    image: microservice-client
+    build: ./microservice-client
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mysqldb
+
+
+
